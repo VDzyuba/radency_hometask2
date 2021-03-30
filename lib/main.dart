@@ -6,11 +6,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Radency Hometask',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -32,20 +31,20 @@ class _HomePageState extends State<HomePage> {
   final _images = [];
 
   void createLists() {
-    for (var i in contacts) {
-      if (i['company'] == null) {
+    for (var person in contacts) {
+      if (person['company'] == null) {
         _company.add('');
       } else {
-        _company.add(i['company']);
+        _company.add(person['company']);
       }
-      if (i['firstName'] == null) {
+      if (person['firstName'] == null) {
         _firstName.add('');
       } else {
-        _firstName.add(i['firstName']);
+        _firstName.add(person['firstName']);
       }
       _isFavorite.add(false);
-      _lastName.add(i['lastName']);
-      _images.add(i['images']);
+      _lastName.add(person['lastName']);
+      _images.add(person['images']);
     }
   }
 
@@ -71,52 +70,54 @@ class _HomePageState extends State<HomePage> {
         title: Text('Radency Hometask #2'),
       ),
       body: ListView.builder(
-          itemCount: contacts.length,
-          itemBuilder: (context, index) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 5.0, 0.0, 0.0),
-                  child: groupByAlphabetic(index),
-                ),
-                Row(
-                  children: [
-                    Container(
-                      width: 40.0,
-                      child: IconButton(
-                          icon: _isFavorite[index]
-                              ? Icon(Icons.star)
-                              : Icon(Icons.star_border),
-                          color: Colors.blue,
-                          onPressed: () {
-                            setState(() {
-                              _isFavorite[index] = !_isFavorite[index];
-                            });
-                          }),
-                    ),
-                    Expanded(
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage:
-                              AssetImage('lib/assets/${_images[index]}'),
-                          backgroundColor: Colors.blue,
-                        ),
-                        title: Text('${_firstName[index]} ${_lastName[index]}',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text(_company[index]),
+        itemCount: contacts.length,
+        itemBuilder: (context, index) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 5.0, 0.0, 0.0),
+                child: groupByAlphabetic(index),
+              ),
+              Row(
+                children: [
+                  Container(
+                    width: 40.0,
+                    child: IconButton(
+                        icon: _isFavorite[index]
+                            ? Icon(Icons.star)
+                            : Icon(Icons.star_border),
+                        color: Colors.blue,
+                        onPressed: () {
+                          setState(() {
+                            _isFavorite[index] = !_isFavorite[index];
+                          });
+                        }),
+                  ),
+                  Expanded(
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage:
+                            AssetImage('lib/assets/${_images[index]}'),
+                        backgroundColor: Colors.blue,
                       ),
+                      title: Text('${_firstName[index]} ${_lastName[index]}',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      subtitle: Text(_company[index]),
                     ),
-                  ],
-                ),
-              ],
-            );
-          }),
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 
+  // ignore: missing_return
   Text groupByAlphabetic(int index) {
-    var textStyle = TextStyle(
+    final textStyle = TextStyle(
         fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.grey);
 
     var firstLetter = _lastName[index].toString().substring(0, 1);
